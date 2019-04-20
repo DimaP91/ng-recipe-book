@@ -6,9 +6,17 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "test": "npm run build && nyc --reporter=html --reporter=text mocha lib/index.test.js",
+    "pre-commit": "ng lint && npm test",
+    "pre-push": "ng lint && ng build --aot true && npm test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   },
   "private": true,
   "dependencies": {
@@ -25,9 +33,9 @@
     "core-js": "^2.4.1",
     "firebase": "^5.5.2",
     "rxjs": "^6.3.3",
+    "rxjs-compat": "^6.0.0-rc.0",
     "tslib": "^1.9.0",
-    "zone.js": "^0.8.19",
-    "rxjs-compat": "^6.0.0-rc.0"
+    "zone.js": "^0.8.19"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.11.0",
@@ -38,6 +46,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
+    "husky": "^1.3.1",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^3.0.0",
