@@ -8,14 +8,20 @@
     "build": "ng build --prod",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test": "npm run build && nyc --reporter=html --reporter=text mocha lib/index.test.js",
-    "pre-commit": "ng lint && npm test",
-    "pre-push": "ng lint && ng build --aot true && npm test"
+    "test": "ng test",
+    "prettier": "prettier \"./src/app/*.{html,ts,js,scss}\"",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "pre-test": "yarn build && yarn test-headless",
+    "pre-push-test": "ng build --aot true && yarn test-headless",
+    "pre-commit-test": "yarn prettier -l && ng lint"
+  },
+  "lint-staged": {
+	"*.{html,ts,js,scss}": ["prettier --write", "git add"]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
-      "pre-push": "npm test"
+      "pre-commit": "lint-staged && ng lint",
+      "pre-push": "yarn pre-push-test"
     }
   },
   "private": true,
@@ -54,6 +60,8 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.17.0",
     "protractor": "^5.4.0",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",

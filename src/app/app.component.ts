@@ -5,7 +5,7 @@ import * as firebase from 'firebase/app';
 	selector: 'app-root',
 	templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	ngOnInit() {
 		firebase.initializeApp({
 			apiKey: 'AIzaSyByYH8frbng4HhsuKq35Mm2OYcFnzrn4ak',
